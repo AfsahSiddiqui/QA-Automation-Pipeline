@@ -1,0 +1,9 @@
+automated-testing/.venv
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.cache/
+report.html
+reports/
+assets/

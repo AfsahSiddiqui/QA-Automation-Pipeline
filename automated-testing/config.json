@@ -1,0 +1,15 @@
+{
+    
+    "BROWSER" : "chrome",
+
+    "BASE_URL" : "https://parabank.parasoft.com/",
+
+    "CREDENTIALS" : {
+        "username" : "john",
+        "password" : "demo"
+    },
+
+    "ACCOUNT_TYPE" : "CHECKING",
+
+    "ACCOUNT_ID" : "13344"
+}
