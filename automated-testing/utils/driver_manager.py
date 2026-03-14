@@ -21,7 +21,8 @@ def build_chrome():
     options.add_argument("--window-size=1920,1080")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox") # Bypass OS security model, useful for CI/CD or container environments
-
+    options.add_argument("--disable-dev-shm-usage")
+    
     return webdriver.Chrome(options=options)
 
 
