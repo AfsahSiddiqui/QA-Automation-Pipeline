@@ -4,6 +4,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
+RUN mkdir -p /app/reports
 
 # Install dependencies required for Chrome and Chrome Browser
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -28,4 +29,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY automated-testing/ .
 
-CMD ["pytest", "--html=report.html", "--self-contained-html"]
+CMD ["pytest", "--html=reports/report.html", "--self-contained-html"]
