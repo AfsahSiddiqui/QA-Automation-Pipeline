@@ -1,0 +1,57 @@
+name: UI Automation Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  run-ui-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+
+      - name: Build Docker Image
+        run: |
+          docker build -f docker/Dockerfile -t ui-tests .
+
+
+      - name: Create reports directory
+        run: mkdir reports
+
+
+      - name: Run UI tests in Docker
+        run: |
+          docker run --rm \
+          -v ${{ github.workspace }}/reports:/app/reports \
+          ui-tests \
+          pytest --html=reports/report.html --self-contained-html
+
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: us-east-1
+
+
+      - name: Upload Report to S3
+        run: |
+          aws s3 cp reports/report.html s3://qa-automation-logs-afsah/report-${{ github.run_id }}.html
+
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: reports/report.html

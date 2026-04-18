@@ -7,3 +7,6 @@ __pycache__/
 report.html
 reports/
 assets/
+terraform/.terraform*
+terraform.tfstate*
+terraform/.terraform.lock.hcl
