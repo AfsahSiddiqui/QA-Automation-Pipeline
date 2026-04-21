@@ -5,6 +5,7 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
 
 jobs:
   run-ui-tests:
@@ -47,6 +48,8 @@ jobs:
       - name: Upload Report to S3 & Generate Link
         run: |
           FILE_NAME="report-${{ github.run_id }}.html"
+          
+          aws configure set default.s3.signature_version s3v4
           
           aws s3 cp reports/report.html s3://qa-automation-logs-afsah/$FILE_NAME
           
