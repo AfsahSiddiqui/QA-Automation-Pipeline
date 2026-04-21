@@ -50,10 +50,13 @@ jobs:
           FILE_NAME="report-${{ github.run_id }}.html"
           
           aws configure set default.s3.signature_version s3v4
-          
+
           aws s3 cp reports/report.html s3://qa-automation-logs-afsah/$FILE_NAME
           
-          REPORT_URL=$(aws s3 presign s3://qa-automation-logs-afsah/$FILE_NAME --expires-in 86400)
+          REPORT_URL=$(aws s3 presign s3://qa-automation-logs-afsah/$FILE_NAME \
+            --expires-in 86400 \
+            --region us-east-1 \
+            --endpoint-url https://s3.us-east-1.amazonaws.com)
           
           echo "----------------------------------------------------------"
           echo "VIEW PRIVATE REPORT HERE: $REPORT_URL"
