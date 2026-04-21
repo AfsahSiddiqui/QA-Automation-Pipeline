@@ -53,10 +53,8 @@ jobs:
 
           aws s3 cp reports/report.html s3://qa-automation-logs-afsah/$FILE_NAME
           
-          REPORT_URL=$(aws s3 presign s3://qa-automation-logs-afsah/$FILE_NAME \
-            --expires-in 86400 \
-            --region us-east-1 \
-            --endpoint-url https://s3.us-east-1.amazonaws.com)
+          REPORT_URL=$(aws s3 presign s3://qa-automation-logs-afsah/$FILE_NAME 
+          \ --expires-in 604800 --region us-east-1)
           
           echo "----------------------------------------------------------"
           echo "VIEW PRIVATE REPORT HERE: $REPORT_URL"
