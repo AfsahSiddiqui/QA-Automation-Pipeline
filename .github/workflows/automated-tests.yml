@@ -45,6 +45,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-1
 
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
+
       - name: Upload Report to S3 & Generate Link
         run: |
           FILE_NAME="report-${{ github.run_id }}.html"
@@ -60,6 +63,9 @@ jobs:
           echo "VIEW PRIVATE REPORT HERE: $REPORT_URL"
           echo "----------------------------------------------------------"
      
+      - name: Verify AWS Identity
+        run: aws sts get-caller-identity
+
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
