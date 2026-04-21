@@ -44,19 +44,17 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-1
-          aws-session-token: ""
-          role-skip-session-tagging: true
 
       - name: Upload Report to S3 & Generate Link
         run: |
           FILE_NAME="report-${{ github.run_id }}.html"
-          
-          aws configure set default.s3.signature_version s3v4
 
           aws s3 cp reports/report.html s3://qa-automation-logs-afsah/$FILE_NAME
           
           REPORT_URL=$(aws s3 presign s3://qa-automation-logs-afsah/$FILE_NAME \
-          --expires-in 604800 --region us-east-1)
+          --expires-in 604800 \
+          --region us-east-1 \
+          --endpoint-url https://s3.us-east-1.amazonaws.com)
           
           echo "----------------------------------------------------------"
           echo "VIEW PRIVATE REPORT HERE: $REPORT_URL"
