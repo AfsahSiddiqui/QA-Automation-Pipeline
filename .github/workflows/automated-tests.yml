@@ -44,12 +44,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: us-east-1
 
-
-      - name: Upload Report to S3
+      - name: Upload Report to S3 & Generate Link
         run: |
-          aws s3 cp reports/report.html s3://qa-automation-logs-afsah/report-${{ github.run_id }}.html
-
-
+          FILE_NAME="report-${{ github.run_id }}.html"
+          
+          aws s3 cp reports/report.html s3://qa-automation-logs-afsah/$FILE_NAME
+          
+          REPORT_URL=$(aws s3 presign s3://qa-automation-logs-afsah/$FILE_NAME --expires-in 86400)
+          
+          echo "----------------------------------------------------------"
+          echo "VIEW PRIVATE REPORT HERE: $REPORT_URL"
+          echo "----------------------------------------------------------"
+     
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
