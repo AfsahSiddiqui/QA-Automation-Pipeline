@@ -121,14 +121,16 @@ docker run --rm -v $(pwd)/reports:/app/reports ui-tests
 The test report will be generated inside:
 reports/report.html
 
-
 ---
 
 # CI/CD Pipeline
 
 The project includes a **GitHub Actions workflow** that automatically runs tests on every push.
 
-Pipeline steps:
+**Pre-requisite:**
+Provision the AWS S3 bucket using the provided **Terraform** configuration to enable automated report uploading. 
+
+**Pipeline steps:**
 
 1. Checkout repository
 2. Build Docker image
@@ -139,7 +141,6 @@ Pipeline steps:
 
 Workflow file:
 .github/workflows/automated-tests.yml
-
 
 ---
 
@@ -217,7 +218,7 @@ This project demonstrates skills across **QA Automation and SRE practices**, inc
 
 These capabilities reflect real-world automation environments used in modern QA and DevOps teams.
 
-### Observability & Error Handling: 
+**Observability & Error Handling:** 
 Implemented if: always() logic in CI/CD to ensure test artifacts are captured even during execution failures, facilitating faster debugging and "Mean Time to Repair" (MTTR).
 
 ---
