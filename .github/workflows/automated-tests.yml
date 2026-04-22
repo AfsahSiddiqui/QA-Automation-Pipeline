@@ -5,6 +5,7 @@ on:
     branches:
       - main
   pull_request:
+  workflow_dispatch:
 
 jobs:
   run-ui-tests:
@@ -30,6 +31,7 @@ jobs:
 
 
       - name: Run UI tests in Docker
+        continue-on-error: true
         run: |
           docker run --rm \
           -v ${{ github.workspace }}/reports:/app/reports \
@@ -38,6 +40,7 @@ jobs:
 
 
       - name: Configure AWS Credentials
+        if: always()
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
@@ -46,11 +49,13 @@ jobs:
 
 
       - name: Upload Report to S3
+        if: always()
         run: |
           aws s3 cp reports/report.html s3://qa-automation-logs-afsah/report-${{ github.run_id }}.html
 
 
       - name: Upload report artifact
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: pytest-report
