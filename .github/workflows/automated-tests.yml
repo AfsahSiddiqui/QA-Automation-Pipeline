@@ -23,7 +23,7 @@ jobs:
           docker build -f docker/Dockerfile -t ui-tests .
 
       - name: Create reports directory
-        run: mkdir -p reports
+        run: mkdir reports
 
       - name: Run UI tests in Docker
         continue-on-error: true
